@@ -1,0 +1,41 @@
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class WeekDays {
+    public static void main(String[] args) {
+        // Initialize an array with all 7 days of the week
+        String[] weekDays = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
+        // Print all days of the week
+        System.out.println("Full week:");
+        for (String day : weekDays) {
+            System.out.println(day);
+        }
+
+        // Resize the array to only include weekdays (excluding Saturday and Sunday)
+        weekDays = Arrays.copyOf(weekDays, 5); // Keeping only the first five elements (Monday - Friday)
+
+        // Print only the weekdays
+        System.out.println("\nWeekdays only:");
+        for (String day : weekDays) {
+            System.out.println(day);
+        }
+
+        // Shuffle the weekdays
+        shuffleDays(weekDays);
+
+        // Print the shuffled weekdays
+        System.out.println("\nShuffled weekdays:");
+        for (String day : weekDays) {
+            System.out.println(day);
+        }
+    }
+
+    // Method to shuffle the weekdays
+    public static void shuffleDays(String[] days) {
+        List<String> list = Arrays.asList(days);
+        Collections.shuffle(list);
+        list.toArray(days); // Convert back to array
+    }
+}
