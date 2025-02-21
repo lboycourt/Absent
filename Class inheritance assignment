@@ -1,0 +1,199 @@
+// Speedometer interface ensures all vehicles track speed
+interface Speedometer {
+    void setSpeed(double inSpeed);
+    double getSpeed();
+}
+
+// Base Vehicle Class implementing Speedometer
+class Vehicle implements Speedometer {
+    protected String brand;
+    protected double speed;
+    protected int passengers;
+    protected double cargoWeight;
+
+    public Vehicle(String brand, double speed, int passengers, double cargoWeight) {
+        this.brand = brand;
+        this.speed = speed;
+        this.passengers = passengers;
+        this.cargoWeight = cargoWeight;
+    }
+
+    @Override
+    public double getSpeed() {
+        return speed;
+    }
+
+    @Override
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    @Override
+    public String toString() {
+        return "Brand: " + brand + "\nSpeed (mph): " + speed + "\nPassengers: " + passengers + "\nCargo (lbs): " + cargoWeight + "\n";
+    }
+}
+
+// Car Class extends Vehicle
+class Car extends Vehicle {
+    protected double mpg;
+
+    public Car(String brand, double speed, int passengers, double cargoWeight, double mpg) {
+        super(brand, speed, passengers, cargoWeight);
+        this.mpg = mpg;
+    }
+
+    public double getMPG() {
+        return mpg;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "MPG: " + mpg + "\n";
+    }
+}
+
+// Truck Class extends Car
+class Truck extends Car {
+    private double towingCapacity;
+
+    public Truck(String brand, double speed, int passengers, double cargoWeight, double mpg, double towingCapacity) {
+        super(brand, speed, passengers, cargoWeight, mpg);
+        this.towingCapacity = towingCapacity;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Towing Capacity (lbs): " + towingCapacity + "\n";
+    }
+}
+
+// Van Class extends Car
+class Van extends Car {
+    private double cargoVolume;
+
+    public Van(String brand, double speed, int passengers, double cargoWeight, double mpg, double cargoVolume) {
+        super(brand, speed, passengers, cargoWeight, mpg);
+        this.cargoVolume = cargoVolume;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Cargo Volume (cu ft): " + cargoVolume + "\n";
+    }
+}
+
+// Sailboat Class extends Vehicle
+class Sailboat extends Vehicle {
+    private double sailArea;
+
+    public Sailboat(String brand, double speed, int passengers, double cargoWeight, double sailArea) {
+        super(brand, speed, passengers, cargoWeight);
+        this.sailArea = sailArea;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Sail Area (sq ft): " + sailArea + "\n";
+    }
+}
+
+// Motorboat Class extends Vehicle
+class Motorboat extends Vehicle {
+    private double enginePower;
+
+    public Motorboat(String brand, double speed, int passengers, double cargoWeight, double enginePower) {
+        super(brand, speed, passengers, cargoWeight);
+        this.enginePower = enginePower;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Engine Power (HP): " + enginePower + "\n";
+    }
+}
+
+// Jet Class extends Vehicle
+class Jet extends Vehicle {
+    private double maxAltitude;
+
+    public Jet(String brand, double speed, int passengers, double cargoWeight, double maxAltitude) {
+        super(brand, speed, passengers, cargoWeight);
+        this.maxAltitude = maxAltitude;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Max Altitude (ft): " + maxAltitude + "\n";
+    }
+}
+
+// PropellerPlane Class extends Vehicle
+class PropellerPlane extends Vehicle {
+    private int numPropellers;
+
+    public PropellerPlane(String brand, double speed, int passengers, double cargoWeight, int numPropellers) {
+        super(brand, speed, passengers, cargoWeight);
+        this.numPropellers = numPropellers;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Number of Propellers: " + numPropellers + "\n";
+    }
+}
+
+// Hovercraft Class extends Vehicle
+class Hovercraft extends Vehicle {
+    private boolean amphibious;
+
+    public Hovercraft(String brand, double speed, int passengers, double cargoWeight, boolean amphibious) {
+        super(brand, speed, passengers, cargoWeight);
+        this.amphibious = amphibious;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Amphibious: " + (amphibious ? "Yes" : "No") + "\n";
+    }
+}
+
+// Submarine Class extends Vehicle
+class Submarine extends Vehicle {
+    private double maxDepth;
+
+    public Submarine(String brand, double speed, int passengers, double cargoWeight, double maxDepth) {
+        super(brand, speed, passengers, cargoWeight);
+        this.maxDepth = maxDepth;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Max Depth (ft): " + maxDepth + "\n";
+    }
+}
+
+// Main Class to test the vehicle inheritance
+public class AssignmentInheritance {
+    public static void main(String[] args) {
+        System.out.println("Running Vehicle Inheritance Assignment\n");
+
+        Vehicle[] vehicles = {
+            new Truck("Ford F-150", 85, 5, 3000, 20, 13000),
+            new Van("Honda Odyssey", 75, 7, 1200, 25, 140),
+            new Sailboat("Sunfish", 15, 2, 200, 50),
+            new Motorboat("Yamaha 242X", 50, 8, 800, 360),
+            new Jet("Boeing 747", 570, 660, 800000, 35000),
+            new PropellerPlane("Cessna 172", 140, 4, 600, 2),
+            new Hovercraft("Air Cushion", 60, 6, 1000, true),
+            new Submarine("USS Virginia", 30, 134, 100000, 1600)
+        };
+
+        for (Vehicle v : vehicles) {
+            System.out.println(v);
+        }
+    }
+
+
+
+
