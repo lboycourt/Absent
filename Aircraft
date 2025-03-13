@@ -1,0 +1,70 @@
+import java.util.ArrayList;
+
+// Abstract base class
+abstract class Aircraft {
+    protected String wings;
+
+    public Aircraft(String wings) {
+        this.wings = wings;
+    }
+
+    public abstract String getDescription();
+
+    @Override
+    public String toString() {
+        return getDescription();
+    }
+}
+
+// Child class representing a single-engine plane
+class SingleEnginePlane extends Aircraft {
+    private String engineType;
+
+    public SingleEnginePlane(String wings, String engineType) {
+        super(wings);
+        this.engineType = engineType;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Single Engine Plane with " + wings + " wings and a " + engineType + " engine.";
+    }
+}
+
+// Child class representing a helicopter
+class Helicopter extends SingleEnginePlane {
+    private String rotorBlades;
+
+    public Helicopter(String wings, String engineType, String rotorBlades) {
+        super(wings, engineType);
+        this.rotorBlades = rotorBlades;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Helicopter with " + wings + " wings, a " + super.engineType + " engine, and " + rotorBlades + " rotor blades.";
+    }
+}
+
+public class AircraftDemo {
+    public static void main(String[] args) {
+        // Create an ArrayList to store different aircraft types
+        ArrayList<Aircraft> aircraftList = new ArrayList<>();
+
+        // Adding objects of each class
+        aircraftList.add(new Aircraft("Fixed") {
+            @Override
+            public String getDescription() {
+                return "Generic Aircraft with " + wings + " wings.";
+            }
+        });
+
+        aircraftList.add(new SingleEnginePlane("Fixed", "Rotary"));
+        aircraftList.add(new Helicopter("No Fixed", "Rotary", "Rotating Helicopter"));
+
+        // Iterate through the list and print details
+        for (Aircraft aircraft : aircraftList) {
+            System.out.println(aircraft);
+        }
+    }
+}
