@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class PascalsTriangleRecursive {
+public class Recursion {
     
     // Recursive function to compute the Nth row of Pascal’s Triangle
     public static int[] getPascalsRow(int n) {
