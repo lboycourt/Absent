@@ -1,0 +1,32 @@
+import java.util.Arrays;
+
+public class PascalsTriangleRecursive {
+    
+    // Recursive function to compute the Nth row of Pascal’s Triangle
+    public static int[] getPascalsRow(int n) {
+        // Base case: The first row is always [1]
+        if (n == 0) {
+            return new int[]{1};
+        }
+        
+        // Recursive case: Get the previous row
+        int[] prevRow = getPascalsRow(n - 1);
+        int[] currentRow = new int[n + 1]; // Current row has (n+1) elements
+        
+        // First and last element of each row is always 1
+        currentRow[0] = currentRow[n] = 1;
+        
+        // Compute the interior values using the previous row
+        for (int i = 1; i < n; i++) {
+            currentRow[i] = prevRow[i - 1] + prevRow[i];
+        }
+        
+        return currentRow;
+    }
+
+    // Main method to test the function
+    public static void main(String[] args) {
+        int N = 5; // Change this value to get different rows
+        System.out.println("Pascal's Triangle Row " + N + ": " + Arrays.toString(getPascalsRow(N)));
+    }
+}
