@@ -1,22 +1,18 @@
 import java.util.Arrays;
 
-public class Recursion {
+public class PascalsTriangleRecursive {
     
     // Recursive function to compute the Nth row of Pascal’s Triangle
     public static int[] getPascalsRow(int n) {
-        // Base case: The first row is always [1]
         if (n == 0) {
             return new int[]{1};
         }
         
-        // Recursive case: Get the previous row
         int[] prevRow = getPascalsRow(n - 1);
-        int[] currentRow = new int[n + 1]; // Current row has (n+1) elements
+        int[] currentRow = new int[n + 1];
         
-        // First and last element of each row is always 1
         currentRow[0] = currentRow[n] = 1;
         
-        // Compute the interior values using the previous row
         for (int i = 1; i < n; i++) {
             currentRow[i] = prevRow[i - 1] + prevRow[i];
         }
@@ -24,9 +20,25 @@ public class Recursion {
         return currentRow;
     }
 
-    // Main method to test the function
+    // Function to print Pascal's Triangle up to row N
+    public static void printPascalsTriangle(int N) {
+        for (int i = 0; i <= N; i++) {
+            // Print leading spaces for formatting
+            System.out.print(" ".repeat((N - i) * 2)); 
+            
+            // Get the current row
+            int[] row = getPascalsRow(i);
+            
+            // Print row elements with spaces
+            for (int num : row) {
+                System.out.print(num + "   ");
+            }
+            System.out.println();
+        }
+    }
+
     public static void main(String[] args) {
-        int N = 5; // Change this value to get different rows
-        System.out.println("Pascal's Triangle Row " + N + ": " + Arrays.toString(getPascalsRow(N)));
+        int N = 5; // Change this to get different sizes
+        printPascalsTriangle(N);
     }
 }
