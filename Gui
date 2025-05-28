@@ -127,3 +127,158 @@ class AbsenceReport {
         return studentName + " | " + date + " | Reason: " + reason;
     }
 }
+
+OR 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.ArrayList;
+
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
+import javafx.scene.layout.StackPane;
+
+import java.time.LocalDate;
+
+public class AbsenceReportingSystem extends JFrame {
+    private JTextField studentNameField;
+    private JTextArea reasonArea, outputArea;
+    private ArrayList<AbsenceReport> reports = new ArrayList<>();
+    private final String FILE_NAME = "absences.csv";
+    private DatePicker datePicker;
+
+    public AbsenceReportingSystem() {
+        setTitle("Parent Absence Reporting System");
+        setSize(650, 550);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        add(new JLabel("Student Name:"));
+        studentNameField = new JTextField(20);
+        add(studentNameField);
+
+        add(new JLabel("Date (YYYY-MM-DD):"));
+        JFXPanel datePanel = new JFXPanel(); // Placeholder for DatePicker
+        add(datePanel);
+        initFX(datePanel); // Initialize JavaFX content
+
+        add(new JLabel("Reason for Absence:"));
+        reasonArea = new JTextArea(3, 30);
+        add(new JScrollPane(reasonArea));
+
+        JButton submitBtn = new JButton("Submit Report");
+        submitBtn.addActionListener(e -> submitReport());
+        add(submitBtn);
+
+        JButton loadBtn = new JButton("Load Reports");
+        loadBtn.addActionListener(e -> loadReports());
+        add(loadBtn);
+
+        JButton processBtn = new JButton("Show All & Count");
+        processBtn.addActionListener(e -> displayReports());
+        add(processBtn);
+
+        outputArea = new JTextArea(10, 50);
+        outputArea.setEditable(false);
+        add(new JScrollPane(outputArea));
+
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private void initFX(JFXPanel fxPanel) {
+        Platform.runLater(() -> {
+            datePicker = new DatePicker(LocalDate.now());
+            StackPane root = new StackPane();
+            root.getChildren().add(datePicker);
+            Scene scene = new Scene(root, 200, 30);
+            fxPanel.setScene(scene);
+        });
+    }
+
+    private void submitReport() {
+        String name = studentNameField.getText().trim();
+        String reason = reasonArea.getText().trim();
+
+        LocalDate selectedDate = datePicker.getValue();
+        String date = (selectedDate != null) ? selectedDate.toString() : "";
+
+        if (name.isEmpty() || date.isEmpty() || reason.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in all fields.");
+            return;
+        }
+
+        AbsenceReport report = new AbsenceReport(name, date, reason);
+        reports.add(report);
+        saveToCSV(report);
+        outputArea.setText("Absence report submitted for " + name);
+        clearFields();
+    }
+
+    private void clearFields() {
+        studentNameField.setText("");
+        reasonArea.setText("");
+        Platform.runLater(() -> datePicker.setValue(LocalDate.now()));
+    }
+
+    private void saveToCSV(AbsenceReport report) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
+            writer.write(report.getStudentName() + "," + report.getDate() + "," + report.getReason().replace(",", ";"));
+            writer.newLine();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error saving report.");
+        }
+    }
+
+    private void loadReports() {
+        reports.clear();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",", 3);
+                if (parts.length == 3) {
+                    reports.add(new AbsenceReport(parts[0].trim(), parts[1].trim(), parts[2].trim()));
+                }
+            }
+            outputArea.setText("Loaded " + reports.size() + " absence reports.");
+        } catch (IOException e) {
+            outputArea.setText("Error loading file.");
+        }
+    }
+
+    private void displayReports() {
+        StringBuilder sb = new StringBuilder();
+        for (AbsenceReport r : reports) {
+            sb.append(r).append("\n");
+        }
+        sb.append("\nTotal Reports: ").append(reports.size());
+        outputArea.setText(sb.toString());
+    }
+
+    public static void main(String[] args) {
+        // Start JavaFX toolkit
+        Platform.startup(() -> {});
+        SwingUtilities.invokeLater(() -> new AbsenceReportingSystem());
+    }
+}
+
+class AbsenceReport {
+    private String studentName, date, reason;
+
+    public AbsenceReport(String studentName, String date, String reason) {
+        this.studentName = studentName;
+        this.date = date;
+        this.reason = reason;
+    }
+
+    public String getStudentName() { return studentName; }
+    public String getDate() { return date; }
+    public String getReason() { return reason; }
+
+    public String toString() {
+        return studentName + " | " + date + " | Reason: " + reason;
+    }
+}
